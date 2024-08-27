@@ -15,9 +15,16 @@ if ("webkitSpeechRecognition" in window) {
         actionDiv.textContent = "Hãy nói nội dung bạn muốn";
 
         searchbox.appendChild(actionDiv);
-        searchbox.removeChild(actionsuccessDiv);
-        searchbox.removeChild(result);
+
+        // Check if elements exist before trying to remove them
+        if (searchbox.contains(actionsuccessDiv)) {
+            searchbox.removeChild(actionsuccessDiv);
+        }
+        if (searchbox.contains(result)) {
+            searchbox.removeChild(result);
+        }
     });
+
     const result = document.createElement("div");
     const actionsuccessDiv = document.createElement("div");
 
@@ -50,33 +57,16 @@ if ("webkitSpeechRecognition" in window) {
                 "_blank"
             );
         } else if (
-            transcript.trim().toLowerCase() === "love yourself" ||
-            transcript.trim().toLowerCase() === "mở bài hát love yourself" ||
-            transcript.trim().toLowerCase() === "phát bài hát love yourself"
+            transcript.includes("mv") ||
+            transcript.includes("phát mv ") ||
+            transcript.includes("xem mv ")
         ) {
-            window.open(
-                "https://open.spotify.com/track/50kpGaPAhYJ3sGmk6vplg0?si=70ecc26154a549c4",
-                "_blank"
-            );
-        } else if (
-            transcript.trim().toLowerCase() === "go hạ long" ||
-            transcript.trim().toLowerCase() === "chỉ đường đến go hạ long" ||
-            transcript.trim().toLowerCase() === "đường đến go hạ long" ||
-            transcript.trim().toLowerCase() === "đến go hạ long"
-        ) {
-            window.open(
-                "https://www.google.com/maps/place/GO!+H%E1%BA%A1+Long/@20.9424205,107.1005586,15z/data=!3m1!4b1!4m6!3m5!1s0x314a578f9f4bfe1b:0x6787f1de98d7b234!8m2!3d20.9424008!4d107.1108369!16s%2Fg%2F1hc1ylpx1?hl=vi-VN&entry=ttu&g_ep=EgoyMDI0MDgyMS4wIKXMDSoASAFQAw%3D%3D",
-                "_blank"
-            );
-        } else if (
-            transcript.trim().toLowerCase() === "mv love yourself" ||
-            transcript.trim().toLowerCase() === "mở mv love yourself" ||
-            transcript.trim().toLowerCase() === "phát mv love yourself"
-        ) {
-            window.open(
-                "https://www.youtube.com/watch?v=oyEuk8j8imI",
-                "_blank"
-            );
+            const url = `https://www.youtube.com/results?search_query=${transcript
+                .replace("mv", "")
+                .replace("phát mv ", "")
+                .replace("xem mv ", "")
+                .trim()}`;
+            window.open(url.trim());
         } else {
             result.textContent = "Không thực hiện được yêu cầu ";
         }
@@ -89,16 +79,9 @@ if ("webkitSpeechRecognition" in window) {
             transcript === "google drive" ||
             transcript === "google map" ||
             transcript === "bản đồ" ||
-            transcript.trim().toLowerCase() === "love yourself" ||
-            transcript.trim().toLowerCase() === "mở bài hát love yourself" ||
-            transcript.trim().toLowerCase() === "phát bài hát love yourself" ||
-            transcript.trim().toLowerCase() === "go hạ long" ||
-            transcript.trim().toLowerCase() === " chỉ đường tới go hạ long" ||
-            transcript.trim().toLowerCase() === "đường tới go hạ long" ||
-            transcript.trim().toLowerCase() === " tới go hạ long" ||
-            transcript.trim().toLowerCase() === "mv love yourself" ||
-            transcript.trim().toLowerCase() === "mở mv love yourself" ||
-            transcript.trim().toLowerCase() === "phát mv love yourself"
+            transcript.includes("mv ") ||
+            transcript.includes("phát mv ") ||
+            transcript.includes("xem mv ")
         ) {
             result.textContent = "Đã thực hiện xong ";
         }
